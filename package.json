@@ -1,0 +1,14 @@
+{
+    "name": "sybolum-magicae",
+    "version": "1.0.0",
+    "description": "A command-line tool to generate a new logo",
+    "main": "./assets/index.js",
+    "scripts": {
+        "start": "node ./assets/index.js"
+    },
+    "author": "CWOChris",
+    "license": "MIT",
+    "dependencies": {
+        "canvas": "^2.8.0"
+    }
+}
