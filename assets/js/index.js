@@ -1,7 +1,7 @@
 const fs = require('fs');
 const readline = require('readline');
 const { createCanvas } = require('canvas');
-const { Shape, Circle, Square, Triangle } = require('./lib/shapes');
+const { Shape, Circle, Square, Triangle } = require('../lib/shapes.js');
 
 const readLine = readline.createInterface({
     input: process.stdin,
