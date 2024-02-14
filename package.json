@@ -4,11 +4,15 @@
     "description": "A command-line tool to generate a new logo",
     "main": "./assets/index.js",
     "scripts": {
-        "start": "node ./assets/index.js"
+        "start": "node ./assets/index.js",
+        "test": "jest"
     },
     "author": "CWOChris",
     "license": "MIT",
     "dependencies": {
         "canvas": "^2.8.0"
+    },
+    "devDependencies": {
+        "jest": "^27.4.7"
     }
 }
