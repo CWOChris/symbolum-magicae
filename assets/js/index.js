@@ -22,7 +22,7 @@ async function magicLogoMaker() {
     const shapeColor = await askQuestion('What color would you like the shape to be? ');
     const shape = await askQuestion('What shape would you like to use? (circle, square, triangle) ');
 
-    const shapeObject = new Shape(shapeColor, createCanvas);
+    let shapeObject;
 
     switch (shape) {
         case "circle":
