@@ -2,15 +2,15 @@
     "name": "symbolum-magicae",
     "version": "1.0.0",
     "description": "A command-line tool to generate a new logo",
-    "main": "./assets/js/index.js",
+    "main": "index.js",
     "scripts": {
-        "start": "node ./assets/js/index.js",
+        "start": "npm install && node index.js",
         "test": "jest"
     },
     "author": "CWOChris",
     "license": "MIT",
     "dependencies": {
-        "canvas": "^2.8.0"
+        "inquirer": "9.2.14"
     },
     "devDependencies": {
         "jest": "^29.7.0"
