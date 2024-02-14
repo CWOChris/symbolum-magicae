@@ -1,6 +1,6 @@
 const fs = require('fs');
 const readline = require('readline');
-const { createCanvas, loadImage } = require('canvas');
+const { createCanvas } = require('canvas');
 
 const readLine = readline.createInterface({
     input: process.stdin,
@@ -8,56 +8,89 @@ const readLine = readline.createInterface({
 });
 
 function askQuestion(question) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         readLine.question(question, (answer) => {
             resolve(answer);
         });
     });
 }
 
-async function makeLogo() {
-    const text = await prompt("What 3 letters would you like to use?");
-    const textColor = await prompt("What color would you like the text to be?");
-    const backgroundColor = await prompt("What color would you like the background to be?");
-    const shape = await prompt("What shape would you like? (circle, square, or triangle)");
+class Shape {
+    constructor(color) {
+        this.color = color;
+    }
 
-    const canvas = createCanvas(200, 200);
-    const ctx = canvas.getContext('2d');
+    render() {
+        const canvas = createCanvas(200, 200);
+        const context = canvas.getContext('2d');
+        context.fillStyle = this.color;
+        context.beginPath();
+        context.arc(100, 100, 100, 0, 2 * Math.PI);
+        context.fill();
+        return canvas.toBuffer().toString('utf8');
+    }
+}
 
-    ctx.fillStyle = backgroundColor;
+class Square extends Shape {
+    constructor(color) {
+        super(color);
+    }
+
+    render() {
+        const canvas = createCanvas(200, 200);
+        const context = canvas.getContext('2d');
+        context.fillStyle = this.color;
+        context.fillRect(0, 0, 200, 200);
+        return canvas.toBuffer().toString('utf8');
+    }
+}
+
+class Triangle extends Shape {
+    constructor(color) {
+        super(color);
+    }
+
+    render() {
+        const canvas = createCanvas(200, 200);
+        const context = canvas.getContext('2d');
+        context.fillStyle = this.color;
+        context.beginPath();
+        context.moveTo(100, 0);
+        context.lineTo(200, 200);
+        context.lineTo(0, 200);
+        context.fill();
+        return canvas.toBuffer().toString('utf8');
+    }
+}
+
+async function logoGenerator() {
+    const text = await askQuestion('What three characters would you like to use for your logo? ');
+    const color = await askQuestion('What color would you like your logo to be? ');
+    const backgroundColor = await askQuestion('What color would you like the background to be? ');
+    const shape = await askQuestion('What shape would you like your logo to be? (circle, square, triangle) ');
+
+    let shapeObject;
     switch (shape) {
-        case "circle":
-            ctx.beginPath();
-            ctx.arc(100, 100, 100, 0, Math.PI * 2);
-            ctx.fill();
+        case 'circle':
+            shapeObject = new Shape(color);
             break;
-        case "square":
-            ctx.fillRect(0, 0, 200, 200);
+        case 'square':
+            shapeObject = new Square(color);
             break;
-        case "triangle":
-            ctx.beginPath();
-            ctx.moveTo(100, 0);
-            ctx.lineTo(200, 200);
-            ctx.lineTo(0, 200);
-            ctx.fill();
+        case 'triangle':
+            shapeObject = new Triangle(color);
             break;
         default:
-            console.log("Invalid shape");
+            console.log('Invalid shape');
             process.exit(1);
             return;
+    }
+
+const svgCreatorElement = shapeObject.render();
+fs.writeFileSync('logo.svg', svgCreatorElement);
+
+console.log('Logo created with pure magic!');
+readLine.close();
 }
 
-ctx.fillStyle = textColor;
-ctx.font = 'bold 48px Impact';
-ctx.textAlign = 'center';
-ctx.fillText(text, 100, 100);
-
-const svgFileCreator = canvas.toBuffer().toString('utf8');
-fs.writeFileSync('logo.svg', svgFileCreator);
-
-console.log("Logo created!");
-
-rl.close();
-}
-
-makeLogo();
+logoGenerator();
