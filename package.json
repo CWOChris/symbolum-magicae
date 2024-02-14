@@ -4,7 +4,7 @@
     "description": "A command-line tool to generate a new logo",
     "main": "./assets/js/index.js",
     "scripts": {
-        "start": "node ./assets/index.js",
+        "start": "node ./assets/js/index.js",
         "test": "jest"
     },
     "author": "CWOChris",
