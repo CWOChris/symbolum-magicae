@@ -26,13 +26,13 @@ async function magicLogoMaker() {
 
     switch (shape) {
         case "circle":
-            shapeObject = new Circle(shapeColor, textColor, text, createCanvas);
+            shapeObject = new Circle(shapeColor, createCanvas);
             break;
         case "square":
-            shapeObject = new Square(shapeColor, textColor, text, createCanvas);
+            shapeObject = new Square(shapeColor, createCanvas);
             break;
         case "triangle":
-            shapeObject = new Triangle(shapeColor, textColor, text, createCanvas);
+            shapeObject = new Triangle(shapeColor, createCanvas);
             break;
         default:
             console.log('Invalid shape');
