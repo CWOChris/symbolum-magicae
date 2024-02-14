@@ -1,49 +1,59 @@
+const inquirer = require('inquirer');
 const fs = require('fs');
-const readline = require('readline');
-const { createCanvas } = require('canvas');
-const { Shape, Circle, Square, Triangle } = require('./assets/lib/shapes.js');
+const { Circle, Triangle, Square } = require('./lib/shapes');
 
-const readLine = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
-
-function askQuestion(question) {
-    return new Promise((resolve) => {
-        readLine.question(question, (answer) => {
-            resolve(answer);
-        });
+async function makeLogoMagic() {
+    const text = await inquirer.prompt({
+        type: 'input',
+        name: 'text',
+        message: 'What three characters would you like to use for your logo?',
+        validate: value => value.length === 3 ? true : 'Please enter exactly three characters.'
     });
+
+    const textColor = await inquirer.prompt({
+        type: 'input',
+        name: 'textColor',
+        message: 'What color would you like the text to be?'
+    });
+
+    const backgroundColor = await inquirer.prompt({
+        type: 'input',
+        name: 'backgroundColor',
+        message: 'What color would you like the background to be?'  // may need to change this to fill color
+    });
+
+    const shapeShape = await inquirer.prompt({
+        type: 'list',
+        name: 'shape',
+        message: 'What shape would you like to use?',
+        choices: ['Circle', 'Square', 'Triangle']
+    });
+
+    const shape = newShape(shapeShape.shapeShape, backgroundColor.backgroundColor);
+
+    const logoSVGContent = `
+    <svg width="300" height="300">
+        ${shape.render()}
+        <text x="50%" y="50%" text-anchor="middle" fill="${textColor.textColor}">${text.text}</text>
+    </svg>
+    `;
+
+    fs.writeFileSync('logo.svg', logoSVGContent);
+    console.log('Your logo has been created! Open logo.svg to view it.');
 }
 
-async function magicLogoMaker() {
-    const text = await askQuestion('What three characters would you like to use? ');
-    const textColor = await askQuestion('What color would you like the text to be? ');
-    const shapeColor = await askQuestion('What color would you like the shape to be? ');
-    const shape = await askQuestion('What shape would you like to use? (circle, square, triangle) ');
 
-    let shapeObject;
-
+function newShape(shape, color) {
     switch (shape) {
-        case "circle":
-            shapeObject = new Circle(shapeColor, createCanvas);
-            break;
-        case "square":
-            shapeObject = new Square(shapeColor, createCanvas);
-            break;
-        case "triangle":
-            shapeObject = new Triangle(shapeColor, createCanvas);
-            break;
+        case 'Circle':
+            return new Circle(color);
+        case 'Square':
+            return new Square(color);
+        case 'Triangle':
+            return new Triangle(color);
         default:
-            console.log('Invalid shape');
-            process.exit(1);
+            throw new Error('Invalid shape');
+    }
 }
 
-    const logoFileMaker = shapeObject.render();
-    fs.writeFileSync('logo.svg', logoFileMaker);
-
-    console.log('Logo created with pure otherworldly magic!');
-    readLine.close();
-}
-
-magicLogoMaker();
+makeLogoMagic();
