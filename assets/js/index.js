@@ -1,6 +1,7 @@
 const fs = require('fs');
 const readline = require('readline');
 const { createCanvas } = require('canvas');
+const { Shape, Circle, Square, Triangle } = require('./lib/shapes');
 
 const readLine = readline.createInterface({
     input: process.stdin,
@@ -15,34 +16,34 @@ function askQuestion(question) {
     });
 }
 
-async function logoGenerator() {
-    const text = await askQuestion('What three characters would you like to use for your logo? ');
-    const color = await askQuestion('What color would you like your logo to be? ');
-    const backgroundColor = await askQuestion('What color would you like the background to be? ');
-    const shape = await askQuestion('What shape would you like your logo to be? (circle, square, triangle) ');
+async function magicLogoMaker() {
+    const text = await askQuestion('What three characters would you like to use? ');
+    const textColor = await askQuestion('What color would you like the text to be? ');
+    const shapeColor = await askQuestion('What color would you like the shape to be? ');
+    const shape = await askQuestion('What shape would you like to use? (circle, square, triangle) ');
 
-    let shapeObject;
+    const shapeObject = new Shape(shapeColor, createCanvas);
+
     switch (shape) {
-        case 'circle':
-            shapeObject = new Shape(color);
+        case "circle":
+            shapeObject = Circle;
             break;
-        case 'square':
-            shapeObject = new Square(color);
+        case "square":
+            shapeObject = Square;
             break;
-        case 'triangle':
-            shapeObject = new Triangle(color);
+        case "triangle":
+            shapeObject = Triangle;
             break;
         default:
             console.log('Invalid shape');
-            // process.exit(1);
-            return;
-    }
-
-const svgCreatorElement = shapeObject.render();
-fs.writeFileSync('logo.svg', svgCreatorElement);
-
-console.log('Logo created with pure magic!');
-readLine.close();
+            process.exit(1);
 }
 
-logoGenerator();
+    const logoFileMaker = shapeObject.render();
+    fs.writeFileSync('logo.svg', logoFileMaker);
+
+    console.log('Logo created with pure otherworldly magic!');
+    readLine.close();
+}
+
+magicLogoMaker();
