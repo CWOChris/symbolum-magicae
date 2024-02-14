@@ -82,7 +82,7 @@ async function logoGenerator() {
             break;
         default:
             console.log('Invalid shape');
-            process.exit(1);
+            // process.exit(1);
             return;
     }
 
