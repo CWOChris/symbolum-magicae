@@ -1,0 +1,6 @@
+
+    <svg width="300" height="300">
+        <polygon points="100,50 0,100 200,100" fill="blue"/>
+        <text x="100" y="85" text-anchor="middle" fill="red">CWR</text>
+    </svg>
+    

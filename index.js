@@ -29,12 +29,12 @@ async function makeLogoMagic() {
         choices: ['Circle', 'Square', 'Triangle']
     });
 
-    const shape = newShape(shapeShape.shapeShape, backgroundColor.backgroundColor);
+    const shape = newShape(shapeShape.shape, backgroundColor.backgroundColor);
 
     const logoSVGContent = `
     <svg width="300" height="300">
         ${shape.render()}
-        <text x="50%" y="50%" text-anchor="middle" fill="${textColor.textColor}">${text.text}</text>
+        <text x="150" y="150" text-anchor="middle" fill="${textColor.textColor}">${text.text}</text>
     </svg>
     `;
 
